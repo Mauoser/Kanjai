@@ -22,9 +22,13 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware Setup
 app.use(helmet());
+
+// CORS Configuration - with better error handling
 const allowedOrigins = process.env.CLIENT_URL
-  ? process.env.CLIENT_URL.split(",")
+  ? process.env.CLIENT_URL.split(",").map((origin) => origin.trim())
   : ["http://localhost:3000"];
+
+console.log("🔒 Allowed CORS origins:", allowedOrigins); // Debug log
 
 app.use(
   cors({
@@ -35,12 +39,16 @@ app.use(
       if (allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
+        console.log("❌ CORS blocked origin:", origin); // Debug log
         callback(new Error("Not allowed by CORS"));
       }
     },
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
 app.use(compression());
 app.use(morgan("dev"));
 app.use(express.json());
