@@ -68,12 +68,12 @@ api.interceptors.response.use(
 
 // Auth endpoints
 export const authAPI = {
-  register: (data) => api.post("/auth/register", data),
-  login: (data) => api.post("/auth/login", data),
-  getMe: () => api.get("/auth/me"),
-  logout: () => api.post("/auth/logout"),
+  register: (data) => api.post("/api/auth/register", data),
+  login: (data) => api.post("/api/auth/login", data),
+  getMe: () => api.get("/api/auth/me"),
+  logout: () => api.post("/api/auth/logout"),
   deleteAccount: (password) =>
-    api.delete("/auth/account", { data: { password } }),
+    api.delete("/api/auth/account", { data: { password } }),
 };
 
 // Kanji endpoints
